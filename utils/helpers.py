@@ -29,3 +29,15 @@ def linear_time_weighted_average(data: Union[np.array, pd.Series], beta: float):
 
     weights = [1 + (w - 1) * beta for w in np.arange(len(data))]
     return np.sum(weights * data) / np.sum(weights)
+
+
+def best_vwap(book_data: pd.DataFrame, imbalance_parameter: float = 1):
+    """
+    Calculates:
+
+        (bid_px*ask_size**q + ask_px*bid_size**q) / (bid_size**q + ask_size**q)
+
+    for the best best and offer
+    """
+    return (book_data["bid_price1"]*book_data["ask_size1"] + book_data["ask_price1"]*book_data["bid_price1"]) / \
+    (book_data["bid_size1"] + book_data["ask_size1"])
